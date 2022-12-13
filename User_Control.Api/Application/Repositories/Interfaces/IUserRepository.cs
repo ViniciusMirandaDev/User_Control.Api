@@ -10,6 +10,7 @@ namespace User_Control.Api.Application.Repositories.Interfaces
         void Register(User user);
         void Update(User user);
         void RegisterRecoveryToken(Guid recoveryToken, string userEmail);
+        void RemoveRecoveryToken(Guid recoveryToken);
         void ResetPassword(Guid recoveryToken, string newPassword);
         void Delete(Guid id);
     }

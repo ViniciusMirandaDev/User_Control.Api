@@ -13,6 +13,8 @@ using User_Control.Api.Application.Services.Interfaces;
 using User_Control.Api.Infrastucture.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using User_Control.Api.Infrastucture.Services.Interfaces;
+using User_Control.Api.Infrastucture.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -104,12 +106,12 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 //Services Dependecy Injection
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddDbContext<CoreContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Default");
-    options.UseSqlServer(connectionString);
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
 var app = builder.Build();

@@ -39,7 +39,7 @@ namespace User_Control.Api.Application.Repositories
         {
             User updatedUser = _context.Users.FirstOrDefault(m => m.RecoveryToken == recoveryToken);
 
-            if (updatedUser == null) throw new NullReferenceException("This token does not exist");
+            if (updatedUser == null) throw new NullReferenceException("This token already be used or does not exist");
 
             updatedUser.PasswordHash = newPassword;
 
@@ -73,9 +73,17 @@ namespace User_Control.Api.Application.Repositories
         public void RegisterRecoveryToken(Guid recoveryToken, string userEmail)
         {
             User newUser = _context.Users.FirstOrDefault(m => m.Email == userEmail);
-
-            if (newUser == null) throw new NullReferenceException("This user does not exist");
             newUser.RecoveryToken = recoveryToken;
+
+            _context.Entry(newUser).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
+        public void RemoveRecoveryToken(Guid recoveryToken)
+        {
+            User newUser = _context.Users.FirstOrDefault(m => m.RecoveryToken == recoveryToken);
+
+            newUser.RecoveryToken = null;
 
             _context.Entry(newUser).State = EntityState.Modified;
             _context.SaveChanges();

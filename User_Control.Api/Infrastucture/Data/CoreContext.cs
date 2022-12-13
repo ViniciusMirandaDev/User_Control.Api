@@ -6,6 +6,7 @@ namespace User_Control.Api.Infrastucture.Data
 {
     public class CoreContext : DbContext
     {
+        public static readonly string DEFAULT_SCHEMA = "user_control";
         public DbSet<User> Users { get; set; }
 
         public CoreContext(DbContextOptions<CoreContext> options) : base(options)

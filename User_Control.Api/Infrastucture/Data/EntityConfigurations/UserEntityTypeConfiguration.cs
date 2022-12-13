@@ -8,7 +8,7 @@ namespace User_Control.Api.Infrastucture.Data.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("User");
+            builder.ToTable("user");
 
             builder.HasKey(x => x.Id);
 

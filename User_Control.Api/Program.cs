@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
 
@@ -53,6 +54,17 @@ builder.Services.AddSwaggerGen(swaggerGen =>
 
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     swaggerGen.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins(builder.Configuration.GetValue<string>("AllowedHosts"))
+                                                  .AllowAnyHeader()
+                                                  .AllowAnyMethod();
+                      });
 });
 
 builder.Services.AddAuthorization(options =>
@@ -130,6 +142,8 @@ app.UseExceptionHandler(errorApp =>
         await context.Response.WriteAsync(JsonConvert.SerializeObject(json));
     });
 });
+
+app.UseCors(MyAllowSpecificOrigins);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

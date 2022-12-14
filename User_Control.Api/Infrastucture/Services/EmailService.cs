@@ -25,7 +25,7 @@ namespace User_Control.Api.Infrastucture.Services
                 HtmlBody = @$"<h2>Olá, {model.Name}</h2>
 		                        <p>Você solicitou recentemente o envio de uma nova senha no portal User_Control.</p>
 		                        <p>Utilize esse link para redefinir sua senha:</p>
-		                        <a href='https://user-control-web.vercel.app/{model.RecoveryToken}'>Clique Aqui!</a>
+		                        <a href='https://user-control-web.vercel.app/forgotpassword/{model.RecoveryToken}'>Clique Aqui!</a>
 		                        <p>A senha anterior continuará válida até sua mudança.</p>
 		                        <p>Atenciosamente,</p>
 		                        <p>Portal User_Control</p>",
